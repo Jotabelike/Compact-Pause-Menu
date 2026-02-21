@@ -122,7 +122,7 @@ class $modify(PagedPauseMenu, PauseLayer) {
  
         auto innerLayout = RowLayout::create();
         innerLayout->setGap(5.f);
-        innerLayout->setAxisAlignment(AxisAlignment::Center);
+        innerLayout->ignoreInvisibleChildren(true);
         innerLayout->setCrossAxisAlignment(AxisAlignment::Center);
         innerMenu->setLayout(innerLayout);
         containerMenu->addChild(innerMenu);
