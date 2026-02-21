@@ -12,35 +12,44 @@ struct MyCustomSliders : Modify<MyCustomSliders, PauseLayer> {
 
     void customSetup() {
         PauseLayer::customSetup();
- 
-        float slidersX = 10.f;
+
+        float slidersX = 10.f;  
         float musicaY = 130.f;
         float sfxY = 110.f;
 
         float labelsX = 95.f;
         float musicaLabelY = 204.f;
         float sfxLabelY = 184.f;
- 
+
         float musicPctX = 185.f;
         float musicPctY = 195.f;
-      
+
         float sfxPctX = 185.f;
         float sfxPctY = 175.f;
 
-
-        auto musicSlider = this->getChildByID("music-slider");
+       
+        auto musicSliderNode = this->getChildByID("music-slider");
         auto musicLabel = this->getChildByID("music-label");
 
-        if (musicSlider && musicLabel) {
-            musicSlider->setScale(0.6f);
-            musicSlider->setPosition({ slidersX, musicaY });
+        if (musicSliderNode && musicLabel) {
+            musicSliderNode->setScale(0.6f);
+            musicSliderNode->setPosition({ slidersX, musicaY });
 
             musicLabel->setScale(0.3f);
             musicLabel->ignoreAnchorPointForPosition(false);
             musicLabel->setAnchorPoint({ 0.5f, 0.5f });
             musicLabel->setPosition({ labelsX, musicaLabelY });
 
-            float currentVol = GameManager::sharedState()->m_bgVolume;
+           
+            float currentVol = 0.f;
+            if (auto slider = static_cast<Slider*>(musicSliderNode)) {
+                currentVol = slider->getValue();
+            }
+            else {
+           
+                currentVol = GameManager::sharedState()->m_bgVolume;
+            }
+
             auto labelStr = fmt::format("{}%", static_cast<int>(currentVol * 100));
 
             m_fields->m_musicPctLabel = CCLabelBMFont::create(labelStr.c_str(), "goldFont.fnt");
@@ -51,19 +60,26 @@ struct MyCustomSliders : Modify<MyCustomSliders, PauseLayer> {
         }
 
         
-        auto sfxSlider = this->getChildByID("sfx-slider");
+        auto sfxSliderNode = this->getChildByID("sfx-slider");
         auto sfxLabel = this->getChildByID("sfx-label");
 
-        if (sfxSlider && sfxLabel) {
-            sfxSlider->setScale(0.6f);
-            sfxSlider->setPosition({ slidersX, sfxY });
+        if (sfxSliderNode && sfxLabel) {
+            sfxSliderNode->setScale(0.6f);
+            sfxSliderNode->setPosition({ slidersX, sfxY });
 
             sfxLabel->setScale(0.3f);
             sfxLabel->ignoreAnchorPointForPosition(false);
             sfxLabel->setAnchorPoint({ 0.5f, 0.5f });
             sfxLabel->setPosition({ labelsX, sfxLabelY });
+ 
+            float currentVol = 0.f;
+            if (auto slider = static_cast<Slider*>(sfxSliderNode)) {
+                currentVol = slider->getValue();
+            }
+            else {
+                currentVol = GameManager::sharedState()->m_sfxVolume;
+            }
 
-            float currentVol = GameManager::sharedState()->m_sfxVolume;
             auto labelStr = fmt::format("{}%", static_cast<int>(currentVol * 100));
 
             m_fields->m_sfxPctLabel = CCLabelBMFont::create(labelStr.c_str(), "goldFont.fnt");
@@ -75,11 +91,9 @@ struct MyCustomSliders : Modify<MyCustomSliders, PauseLayer> {
     }
 
    
-
     void musicSliderChanged(CCObject* sender) {
         PauseLayer::musicSliderChanged(sender);
 
-     
         auto slider = static_cast<Slider*>(this->getChildByID("music-slider"));
 
         if (m_fields->m_musicPctLabel && slider) {
@@ -89,10 +103,9 @@ struct MyCustomSliders : Modify<MyCustomSliders, PauseLayer> {
         }
     }
 
-    
     void sfxSliderChanged(CCObject* sender) {
         PauseLayer::sfxSliderChanged(sender);
- 
+
         auto slider = static_cast<Slider*>(this->getChildByID("sfx-slider"));
 
         if (m_fields->m_sfxPctLabel && slider) {
