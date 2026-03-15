@@ -1,6 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/PauseLayer.hpp>
-#include <Geode/binding/Slider.hpp>  
+#include <Geode/binding/Slider.hpp>
 
 using namespace geode::prelude;
 
@@ -13,21 +13,21 @@ struct MyCustomSliders : Modify<MyCustomSliders, PauseLayer> {
     void customSetup() {
         PauseLayer::customSetup();
 
-        float slidersX = 10.f;  
-        float musicaY = 130.f;
-        float sfxY = 110.f;
+        auto winSize = CCDirector::get()->getWinSize();
 
-        float labelsX = 95.f;
-        float musicaLabelY = 204.f;
-        float sfxLabelY = 184.f;
+        // All positions relative to winSize
+        float slidersX = winSize.width * 0.02f;
+        float musicaY = winSize.height * 0.41f;
+        float sfxY = winSize.height * 0.34f;
 
-        float musicPctX = 185.f;
-        float musicPctY = 195.f;
+        float labelsX = winSize.width * 0.17f;
+        float musicaLabelY = winSize.height * 0.64f;
+        float sfxLabelY = winSize.height * 0.575f;
 
-        float sfxPctX = 185.f;
-        float sfxPctY = 175.f;
+        float pctX = winSize.width * 0.33f;
+        float musicPctY = winSize.height * 0.61f;
+        float sfxPctY = winSize.height * 0.547f;
 
-       
         auto musicSliderNode = this->getChildByID("music-slider");
         auto musicLabel = this->getChildByID("music-label");
 
@@ -40,26 +40,23 @@ struct MyCustomSliders : Modify<MyCustomSliders, PauseLayer> {
             musicLabel->setAnchorPoint({ 0.5f, 0.5f });
             musicLabel->setPosition({ labelsX, musicaLabelY });
 
-           
             float currentVol = 0.f;
             if (auto slider = static_cast<Slider*>(musicSliderNode)) {
                 currentVol = slider->getValue();
             }
             else {
-           
                 currentVol = GameManager::sharedState()->m_bgVolume;
             }
 
             auto labelStr = fmt::format("{}%", static_cast<int>(currentVol * 100));
 
             m_fields->m_musicPctLabel = CCLabelBMFont::create(labelStr.c_str(), "goldFont.fnt");
-            m_fields->m_musicPctLabel->setPosition({ musicPctX, musicPctY });
+            m_fields->m_musicPctLabel->setPosition({ pctX, musicPctY });
             m_fields->m_musicPctLabel->setScale(0.4f);
             m_fields->m_musicPctLabel->setAnchorPoint({ 0.0f, 0.5f });
             this->addChild(m_fields->m_musicPctLabel);
         }
 
-        
         auto sfxSliderNode = this->getChildByID("sfx-slider");
         auto sfxLabel = this->getChildByID("sfx-label");
 
@@ -71,7 +68,7 @@ struct MyCustomSliders : Modify<MyCustomSliders, PauseLayer> {
             sfxLabel->ignoreAnchorPointForPosition(false);
             sfxLabel->setAnchorPoint({ 0.5f, 0.5f });
             sfxLabel->setPosition({ labelsX, sfxLabelY });
- 
+
             float currentVol = 0.f;
             if (auto slider = static_cast<Slider*>(sfxSliderNode)) {
                 currentVol = slider->getValue();
@@ -83,14 +80,13 @@ struct MyCustomSliders : Modify<MyCustomSliders, PauseLayer> {
             auto labelStr = fmt::format("{}%", static_cast<int>(currentVol * 100));
 
             m_fields->m_sfxPctLabel = CCLabelBMFont::create(labelStr.c_str(), "goldFont.fnt");
-            m_fields->m_sfxPctLabel->setPosition({ sfxPctX, sfxPctY });
+            m_fields->m_sfxPctLabel->setPosition({ pctX, sfxPctY });
             m_fields->m_sfxPctLabel->setScale(0.4f);
             m_fields->m_sfxPctLabel->setAnchorPoint({ 0.0f, 0.5f });
             this->addChild(m_fields->m_sfxPctLabel);
         }
     }
 
-   
     void musicSliderChanged(CCObject* sender) {
         PauseLayer::musicSliderChanged(sender);
 

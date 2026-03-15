@@ -6,7 +6,6 @@ using namespace geode::prelude;
 struct MyCustomTitle : Modify<MyCustomTitle, PauseLayer> {
 
     std::string getDifficultyFrameName(GJGameLevel* level) {
-    
         if (level->m_levelID > 0 && level->m_levelID < 128 && level->m_levelType != GJLevelType::Editor) {
             switch (level->m_levelID) {
             case 1: case 2: return "difficulty_01_btn_001.png";
@@ -52,16 +51,14 @@ struct MyCustomTitle : Modify<MyCustomTitle, PauseLayer> {
         if (!playLayer || !playLayer->m_level) return;
         auto level = playLayer->m_level;
 
-       
-        float faceX = 45.5f;
-        float faceY = 283.0f;
+        // All positions relative to winSize
+        float faceX = winSize.width * 0.08f;
+        float faceY = winSize.height - 37.f;
 
-       
-        float textX = 72.0f;
+        float textX = winSize.width * 0.127f;
         float titleY = winSize.height - 27.0f;
         float creatorY = winSize.height - 42.0f;
 
-       
         auto diffSprite = GJDifficultySprite::create(0, GJDifficultyName::Short);
         std::string frameName = getDifficultyFrameName(level);
 
@@ -75,19 +72,16 @@ struct MyCustomTitle : Modify<MyCustomTitle, PauseLayer> {
         if (featureState > 0) diffSprite->updateFeatureState(static_cast<GJFeatureState>(featureState));
 
         diffSprite->setID("difficulty-face"_spr);
-        diffSprite->setScale(0.8f);  
+        diffSprite->setScale(0.8f);
         diffSprite->setAnchorPoint({ 0.5f, 0.5f });
-
-      
         diffSprite->setPosition({ faceX, faceY });
         this->addChild(diffSprite);
+
         title->setScale(0.7f);
         title->setAnchorPoint({ 0.f, 0.5f });
         title->setAlignment(kCCTextAlignmentLeft);
         title->setPosition({ textX, titleY });
 
-
-    
         std::string creatorName = level->m_creatorName;
         if (level->m_levelID < 128 && level->m_levelID > 0) creatorName = "RobTop";
         else if (creatorName.empty()) creatorName = "Unknown";

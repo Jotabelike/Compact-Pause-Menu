@@ -7,14 +7,14 @@
 #include <Geode/binding/ButtonSprite.hpp>
 #include <Geode/binding/CCMenuItemSpriteExtra.hpp>
 
-using namespace geode::prelude; 
+using namespace geode::prelude;
 const int MY_WIDGET_TAG = 7777;
 
- 
 class $modify(MyPauseLayer, PauseLayer) {
     void customSetup() {
         PauseLayer::customSetup();
 
+        auto winSize = CCDirector::get()->getWinSize();
         auto level = PlayLayer::get()->m_level;
 
         SongInfoObject* songInfo = nullptr;
@@ -36,16 +36,15 @@ class $modify(MyPauseLayer, PauseLayer) {
         );
 
         if (songWidget) {
-            songWidget->setPosition({ 145, 105 });
+            // Position relative to winSize - left-center area
+            songWidget->setPosition({ winSize.width * 0.255f, winSize.height * 0.328f });
             songWidget->setScale(0.47f);
 
-            
             songWidget->setTag(MY_WIDGET_TAG);
             songWidget->setID("custom-songs-widget");
 
             this->addChild(songWidget);
 
-            
             if (auto menu = songWidget->getChildByID("buttons-menu")) {
                 if (auto oldBtn = menu->getChildByID("more-button")) {
                     oldBtn->setVisible(false);
@@ -53,7 +52,6 @@ class $modify(MyPauseLayer, PauseLayer) {
                 }
             }
 
-            
             auto btnSprite = ButtonSprite::create("More", 40, true, "bigFont.fnt", "GJ_button_02.png", 30.0f, 0.7f);
 
             auto myNewBtn = CCMenuItemSpriteExtra::create(
@@ -71,23 +69,18 @@ class $modify(MyPauseLayer, PauseLayer) {
     }
 };
 
- 
 class $modify(FixedSongWidget, CustomSongWidget) {
 
-   
     void deleteSong() {
         CustomSongWidget::deleteSong();
 
-       
         if (auto engine = FMODAudioEngine::sharedEngine()) {
             engine->stopAllMusic(true);
         }
 
-         
         this->updateSongInfo();
     }
 
-    
     void onExit() {
         if (m_songInfoObject) {
             m_songInfoObject->release();
@@ -96,11 +89,9 @@ class $modify(FixedSongWidget, CustomSongWidget) {
         CustomSongWidget::onExit();
     }
 
-    
     void updateSongInfo() {
         CustomSongWidget::updateSongInfo();
 
-       
         if (this->getTag() == MY_WIDGET_TAG) {
             if (auto menu = this->getChildByID("buttons-menu")) {
                 if (auto oldBtn = menu->getChildByID("more-button")) {
