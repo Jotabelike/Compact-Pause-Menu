@@ -28,7 +28,6 @@ struct ShowParticlesOption : Modify<ShowParticlesOption, PauseLayer> {
         auto winSize = CCDirector::sharedDirector()->getWinSize();
 
         auto menu = CCMenu::create();
-        // Position relative to winSize - left-center area
         menu->setPosition({ winSize.width * 0.15f, winSize.height / 2 - 10.f });
         menu->setTouchPriority(-510);
         this->addChild(menu);

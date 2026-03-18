@@ -33,7 +33,7 @@ struct MyCustomBar : Modify<MyCustomBar, PauseLayer> {
 
         auto winSize = CCDirector::get()->getWinSize();
 
-        // Positions relative to winSize instead of hardcoded
+     
         float posX = winSize.width * 0.23f;
         float alturaNormal = (winSize.height / 2) + 80.f;
         float distancia = 25.f;

@@ -15,7 +15,7 @@ class $modify(MyCoins, PauseLayer) {
 
         auto coinMenu = CCMenu::create();
         coinMenu->setID("coins-menu");
-        // Position relative to winSize - top-left area
+      
         coinMenu->setPosition({ winSize.width * 0.12f, winSize.height - 63.f });
         coinMenu->setAnchorPoint({ 0.f, 0.2f });
 

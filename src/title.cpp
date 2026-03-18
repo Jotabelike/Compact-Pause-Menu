@@ -51,7 +51,7 @@ struct MyCustomTitle : Modify<MyCustomTitle, PauseLayer> {
         if (!playLayer || !playLayer->m_level) return;
         auto level = playLayer->m_level;
 
-        // All positions relative to winSize
+       
         float faceX = winSize.width * 0.08f;
         float faceY = winSize.height - 37.f;
 

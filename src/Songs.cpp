@@ -36,7 +36,7 @@ class $modify(MyPauseLayer, PauseLayer) {
         );
 
         if (songWidget) {
-            // Position relative to winSize - left-center area
+   
             songWidget->setPosition({ winSize.width * 0.255f, winSize.height * 0.328f });
             songWidget->setScale(0.47f);
 

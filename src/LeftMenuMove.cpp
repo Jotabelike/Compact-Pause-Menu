@@ -62,11 +62,11 @@ class $modify(PagedPauseMenu, PauseLayer) {
         auto innerMenu = m_fields->m_innerMenu;
 
         if (oldMenu && innerMenu) {
-            // Check if there are any buttons to move
+        
             int buttonCount = oldMenu->getChildrenCount();
 
             if (buttonCount == 0) {
-                // No buttons — hide the entire container (arrows included)
+              
                 if (m_fields->m_containerMenu) {
                     m_fields->m_containerMenu->setVisible(false);
                 }

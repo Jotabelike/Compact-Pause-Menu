@@ -14,8 +14,7 @@ struct MyCustomSliders : Modify<MyCustomSliders, PauseLayer> {
         PauseLayer::customSetup();
 
         auto winSize = CCDirector::get()->getWinSize();
-
-        // All positions relative to winSize
+         
         float slidersX = winSize.width * 0.02f;
         float musicaY = winSize.height * 0.41f;
         float sfxY = winSize.height * 0.34f;

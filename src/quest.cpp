@@ -33,7 +33,7 @@ class $modify(MyQuestPauseLayer, PauseLayer) {
         originalPage->ignoreAnchorPointForPosition(false);
         originalPage->setAnchorPoint({ 0.5f, 0.5f });
         float myScale = 0.6f;
-        // Offset from center - works across aspect ratios
+  
         CCPoint myPos = { winSize.width * 0.57f, winSize.height * 0.63f };
 
         originalPage->setScale(myScale);
