@@ -18,7 +18,39 @@ std::string getLengthText(int lengthEnum) {
     case 2: return "Medium";
     case 3: return "Long";
     case 4: return "XL";
+    case 5: return "Plat";
     default: return "NA";
+    }
+}
+ 
+int getMainLevelLength(int levelID) {
+    switch (levelID) {
+    case 1:  
+    case 2:   
+    case 3:   
+    case 4:   
+    case 5:   
+    case 6:   
+    case 7:   
+    case 8:  
+    case 9:  
+    case 10: 
+    case 11: 
+    case 12:  
+    case 13:  
+    case 15:  
+    case 16:  
+    case 17:  
+    case 19:  
+    case 21:  
+    case 22:  
+        return 3;  
+    case 14:  
+    case 18:  
+    case 20:  
+        return 4;  
+    default:
+        return -1;
     }
 }
 
@@ -51,8 +83,7 @@ class $modify(MyLevelStats, PauseLayer) {
         float generalScale = 0.70f;
         float itemSpacing = 53.0f;
 
-       
-        float totalSpan = itemSpacing * 3.0f + 30.0f;   
+        float totalSpan = itemSpacing * 3.0f + 30.0f;
         float positionX = (winSize.width / 2) - (totalSpan * generalScale / 2);
         float positionY = winSize.height * 0.05f;
 
@@ -86,10 +117,23 @@ class $modify(MyLevelStats, PauseLayer) {
             itemSpacing * 2.0f
         );
 
+        
+        int levelID = level->m_levelID.value();
+        bool isMainLevel = (level->m_levelType == GJLevelType::Main)
+            || (levelID > 0 && levelID < 128 && level->m_levelType != GJLevelType::Editor);
+
+        int lengthValue = level->m_levelLength;
+        if (isMainLevel) {
+            int mainLength = getMainLevelLength(levelID);
+            if (mainLength >= 0) {
+                lengthValue = mainLength;
+            }
+        }
+
         addStatToContainer(
             statsContainer,
             "GJ_timeIcon_001.png",
-            getLengthText(level->m_levelLength),
+            getLengthText(lengthValue),
             itemSpacing * 3.0f,
             0.5f
         );
