@@ -29,7 +29,6 @@ struct ShowParticlesOption : Modify<ShowParticlesOption, PauseLayer> {
 
         auto menu = CCMenu::create();
         menu->setPosition({ winSize.width * 0.15f, winSize.height / 2 - 10.f });
-        menu->setTouchPriority(-510);
         this->addChild(menu);
 
         bool estado = Mod::get()->getSavedValue<bool>("show-particles", true);

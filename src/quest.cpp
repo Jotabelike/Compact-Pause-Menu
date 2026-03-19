@@ -7,15 +7,38 @@ static const char* MY_QUEST_MENU_ID = "mini-quest-menu";
 
 class $modify(MyQuestPauseLayer, PauseLayer) {
 
+   
+    void disableTouchRecursive(CCNode * node) {
+        if (!node) return;
+
+        if (auto layer = typeinfo_cast<CCLayer*>(node)) {
+            layer->setTouchEnabled(false);
+        }
+        if (auto menu = typeinfo_cast<CCMenu*>(node)) {
+            menu->setEnabled(false);
+            menu->setTouchEnabled(false);
+        }
+
+        auto children = node->getChildren();
+        if (!children) return;
+        for (int i = 0; i < children->count(); i++) {
+            auto child = static_cast<CCNode*>(children->objectAtIndex(i));
+            disableTouchRecursive(child);
+        }
+    }
+
     void customSetup() {
         PauseLayer::customSetup();
 
         auto winSize = CCDirector::sharedDirector()->getWinSize();
-
         auto originalPage = ChallengesPage::create();
         originalPage->setID(MY_QUEST_MENU_ID);
-
+ 
         originalPage->setTouchEnabled(false);
+        originalPage->setKeyboardEnabled(false);
+        originalPage->setKeypadEnabled(false);
+        CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(originalPage);
+
         originalPage->setOpacity(0);
 
         if (auto mainLayer = static_cast<CCLayer*>(originalPage->getChildren()->objectAtIndex(0))) {
@@ -28,12 +51,13 @@ class $modify(MyQuestPauseLayer, PauseLayer) {
                     node->setVisible(false);
                 }
             }
+           
+            disableTouchRecursive(mainLayer);
         }
 
         originalPage->ignoreAnchorPointForPosition(false);
         originalPage->setAnchorPoint({ 0.5f, 0.5f });
         float myScale = 0.6f;
-  
         CCPoint myPos = { winSize.width * 0.57f, winSize.height * 0.63f };
 
         originalPage->setScale(myScale);
