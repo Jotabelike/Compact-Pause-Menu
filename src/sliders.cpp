@@ -13,19 +13,21 @@ struct MyCustomSliders : Modify<MyCustomSliders, PauseLayer> {
     void customSetup() {
         PauseLayer::customSetup();
 
-        auto winSize = CCDirector::get()->getWinSize();
-         
-        float slidersX = winSize.width * 0.02f;
-        float musicaY = winSize.height * 0.41f;
-        float sfxY = winSize.height * 0.34f;
+        auto layerSize = this->getContentSize();
+        bool is4x3 = (layerSize.width / layerSize.height) < 1.5f;
 
-        float labelsX = winSize.width * 0.17f;
-        float musicaLabelY = winSize.height * 0.64f;
-        float sfxLabelY = winSize.height * 0.575f;
+      
+        float slidersX = layerSize.width * (is4x3 ? 0.05f : 0.02f);  
+        float musicaY = layerSize.height * 0.41f;
+        float sfxY = layerSize.height * 0.34f;
 
-        float pctX = winSize.width * 0.33f;
-        float musicPctY = winSize.height * 0.61f;
-        float sfxPctY = winSize.height * 0.547f;
+        float labelsX = layerSize.width * (is4x3 ? 0.20f : 0.17f);   
+        float musicaLabelY = layerSize.height * 0.64f;
+        float sfxLabelY = layerSize.height * 0.575f;
+
+        float pctX = layerSize.width * (is4x3 ? 0.36f : 0.33f);    
+        float musicPctY = layerSize.height * 0.61f;
+        float sfxPctY = layerSize.height * 0.547f;
 
         auto musicSliderNode = this->getChildByID("music-slider");
         auto musicLabel = this->getChildByID("music-label");

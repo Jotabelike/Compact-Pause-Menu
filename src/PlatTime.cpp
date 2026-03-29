@@ -7,11 +7,11 @@ class $modify(timmer, PauseLayer) {
     void customSetup() {
         PauseLayer::customSetup();
 
-        auto winSize = CCDirector::get()->getWinSize();
+        auto layerSize = this->getContentSize();
 
         if (auto timeLabel = static_cast<CCLabelBMFont*>(this->getChildByID("play-time"))) {
-            float posX = winSize.width * 0.23f;
-            float posY = (winSize.height / 2) + 80.f;
+            float posX = layerSize.width * 0.23f;
+            float posY = (layerSize.height / 2) + 80.f;
 
             timeLabel->setPosition({ posX, posY });
             timeLabel->setAnchorPoint({ 0.5f, 0.5f });

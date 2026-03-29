@@ -7,16 +7,16 @@ class $modify(MyCoins, PauseLayer) {
     void customSetup() {
         PauseLayer::customSetup();
 
-        auto winSize = CCDirector::get()->getWinSize();
+        auto layerSize = this->getContentSize();
         auto playLayer = PlayLayer::get();
 
         if (!playLayer || !playLayer->m_level) return;
         auto level = playLayer->m_level;
 
         auto coinMenu = CCMenu::create();
-        coinMenu->setID("coins-menu");
-      
-        coinMenu->setPosition({ winSize.width * 0.12f, winSize.height - 63.f });
+        coinMenu->setID("coins-menu"_spr);
+
+        coinMenu->setPosition({ layerSize.width * 0.12f, layerSize.height - 63.f });
         coinMenu->setAnchorPoint({ 0.f, 0.2f });
 
         coinMenu->setLayout(

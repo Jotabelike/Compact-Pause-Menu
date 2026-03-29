@@ -27,15 +27,12 @@ struct MyCustomBar : Modify<MyCustomBar, PauseLayer> {
         label->setAnchorPoint({ 0.f, 0.5f });
         label->setPosition({ bordeIzquierdo, y + 10.f });
     }
-
     void customSetup() {
         PauseLayer::customSetup();
-
-        auto winSize = CCDirector::get()->getWinSize();
-
-     
-        float posX = winSize.width * 0.23f;
-        float alturaNormal = (winSize.height / 2) + 80.f;
+        auto layerSize = this->getContentSize();    
+        bool is4x3 = (layerSize.width / layerSize.height) < 1.5f;
+        float posX = layerSize.width * (is4x3 ? 0.27f : 0.23f);    
+        float alturaNormal = (layerSize.height / 2) + (is4x3 ? 95.f : 80.f);  
         float distancia = 25.f;
         float alturaPractica = alturaNormal - distancia;
 
@@ -61,7 +58,7 @@ struct MyCustomBar : Modify<MyCustomBar, PauseLayer> {
                     "goldFont.fnt"
                 );
 
-                attemptsLabel->setID("attempts-label");
+                attemptsLabel->setID("attempts-label"_spr);
                 attemptsLabel->setScale(0.3f);
                 attemptsLabel->setAnchorPoint({ 0.f, 0.5f });
 

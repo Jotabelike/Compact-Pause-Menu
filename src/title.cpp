@@ -43,7 +43,7 @@ struct MyCustomTitle : Modify<MyCustomTitle, PauseLayer> {
     void customSetup() {
         PauseLayer::customSetup();
 
-        auto winSize = CCDirector::get()->getWinSize();
+        auto layerSize = this->getContentSize();
         auto title = static_cast<CCLabelBMFont*>(this->getChildByID("level-name"));
 
         if (!title) return;
@@ -51,13 +51,13 @@ struct MyCustomTitle : Modify<MyCustomTitle, PauseLayer> {
         if (!playLayer || !playLayer->m_level) return;
         auto level = playLayer->m_level;
 
-       
-        float faceX = winSize.width * 0.08f;
-        float faceY = winSize.height - 37.f;
 
-        float textX = winSize.width * 0.127f;
-        float titleY = winSize.height - 27.0f;
-        float creatorY = winSize.height - 42.0f;
+        float faceX = layerSize.width * 0.08f;
+        float faceY = layerSize.height - 37.f;
+
+        float textX = layerSize.width * 0.127f;
+        float titleY = layerSize.height - 27.0f;
+        float creatorY = layerSize.height - 42.0f;
 
         auto diffSprite = GJDifficultySprite::create(0, GJDifficultyName::Short);
         std::string frameName = getDifficultyFrameName(level);
@@ -90,7 +90,7 @@ struct MyCustomTitle : Modify<MyCustomTitle, PauseLayer> {
             fmt::format("By {}", creatorName).c_str(),
             "goldFont.fnt"
         );
-        creatorLabel->setID("creator-name-label");
+        creatorLabel->setID("creator-name-label"_spr);
         creatorLabel->setScale(0.4f);
         creatorLabel->setAnchorPoint({ 0.f, 0.5f });
         creatorLabel->setPosition({ textX, creatorY });

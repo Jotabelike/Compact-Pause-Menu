@@ -3,11 +3,9 @@
 #include <Geode/modify/ChallengeNode.hpp>
 
 using namespace geode::prelude;
-static const char* MY_QUEST_MENU_ID = "mini-quest-menu";
-
 class $modify(MyQuestPauseLayer, PauseLayer) {
 
-   
+
     void disableTouchRecursive(CCNode * node) {
         if (!node) return;
 
@@ -30,10 +28,10 @@ class $modify(MyQuestPauseLayer, PauseLayer) {
     void customSetup() {
         PauseLayer::customSetup();
 
-        auto winSize = CCDirector::sharedDirector()->getWinSize();
+        auto layerSize = this->getContentSize();
         auto originalPage = ChallengesPage::create();
-        originalPage->setID(MY_QUEST_MENU_ID);
- 
+        originalPage->setID("mini-quest-menu"_spr);
+
         originalPage->setTouchEnabled(false);
         originalPage->setKeyboardEnabled(false);
         originalPage->setKeypadEnabled(false);
@@ -51,14 +49,18 @@ class $modify(MyQuestPauseLayer, PauseLayer) {
                     node->setVisible(false);
                 }
             }
-           
+
             disableTouchRecursive(mainLayer);
         }
 
         originalPage->ignoreAnchorPointForPosition(false);
         originalPage->setAnchorPoint({ 0.5f, 0.5f });
         float myScale = 0.6f;
-        CCPoint myPos = { winSize.width * 0.57f, winSize.height * 0.63f };
+
+        bool is4x3 = (layerSize.width / layerSize.height) < 1.5f;
+        float posX = layerSize.width * (is4x3 ? 0.61f : 0.57f);  
+
+        CCPoint myPos = { posX, layerSize.height * 0.63f };
 
         originalPage->setScale(myScale);
         originalPage->setPosition(myPos);

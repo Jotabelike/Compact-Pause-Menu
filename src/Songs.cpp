@@ -14,7 +14,7 @@ class $modify(MyPauseLayer, PauseLayer) {
     void customSetup() {
         PauseLayer::customSetup();
 
-        auto winSize = CCDirector::get()->getWinSize();
+        auto layerSize = this->getContentSize();
         auto level = PlayLayer::get()->m_level;
 
         SongInfoObject* songInfo = nullptr;
@@ -36,12 +36,14 @@ class $modify(MyPauseLayer, PauseLayer) {
         );
 
         if (songWidget) {
-   
-            songWidget->setPosition({ winSize.width * 0.255f, winSize.height * 0.328f });
+            bool is4x3 = (layerSize.width / layerSize.height) < 1.5f;
+            float widgetX = layerSize.width * (is4x3 ? 0.285f : 0.255f);  
+
+            songWidget->setPosition({ widgetX, layerSize.height * 0.328f });
             songWidget->setScale(0.47f);
 
             songWidget->setTag(MY_WIDGET_TAG);
-            songWidget->setID("custom-songs-widget");
+            songWidget->setID("custom-songs-widget"_spr);
 
             this->addChild(songWidget);
 

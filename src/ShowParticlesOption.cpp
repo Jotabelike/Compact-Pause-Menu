@@ -25,10 +25,10 @@ struct ShowParticlesOption : Modify<ShowParticlesOption, PauseLayer> {
     void customSetup() {
         PauseLayer::customSetup();
 
-        auto winSize = CCDirector::sharedDirector()->getWinSize();
+        auto layerSize = this->getContentSize();
 
         auto menu = CCMenu::create();
-        menu->setPosition({ winSize.width * 0.15f, winSize.height / 2 - 10.f });
+        menu->setPosition({ layerSize.width * 0.15f, layerSize.height / 2 - 10.f });
         this->addChild(menu);
 
         bool estado = Mod::get()->getSavedValue<bool>("show-particles", true);

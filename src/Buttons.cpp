@@ -7,12 +7,12 @@ struct MyCustomPause : Modify<MyCustomPause, PauseLayer> {
     void customSetup() {
         PauseLayer::customSetup();
 
-        auto winSize = CCDirector::get()->getWinSize();
+        auto layerSize = this->getContentSize();
         auto oldMenu = this->getChildByID("center-button-menu");
 
         auto newMenu = CCMenu::create();
-        newMenu->setID("my-compact-menu");
-        newMenu->setPosition({ winSize.width * 0.08f, winSize.height / 2 - 10.f });
+        newMenu->setID("my-compact-menu"_spr);
+        newMenu->setPosition({ layerSize.width * 0.08f, layerSize.height / 2 - 10.f });
         newMenu->setContentSize({ 60.f, 500.f });
         newMenu->ignoreAnchorPointForPosition(false);
         newMenu->setScale(0.5f);

@@ -62,11 +62,11 @@ class $modify(PagedPauseMenu, PauseLayer) {
         auto innerMenu = m_fields->m_innerMenu;
 
         if (oldMenu && innerMenu) {
-        
+
             int buttonCount = oldMenu->getChildrenCount();
 
             if (buttonCount == 0) {
-              
+
                 if (m_fields->m_containerMenu) {
                     m_fields->m_containerMenu->setVisible(false);
                 }
@@ -94,11 +94,11 @@ class $modify(PagedPauseMenu, PauseLayer) {
 
     void customSetup() {
         PauseLayer::customSetup();
-        auto winSize = CCDirector::get()->getWinSize();
+        auto layerSize = this->getContentSize();
 
         auto containerMenu = CCMenu::create();
-        containerMenu->setID("bottom-menu-container");
-        containerMenu->setPosition({ winSize.width / 2, winSize.height * 0.14f });
+        containerMenu->setID("bottom-menu-container"_spr);
+        containerMenu->setPosition({ layerSize.width / 2, layerSize.height * 0.14f });
         containerMenu->setContentSize({ 500.f, 60.f });
         containerMenu->ignoreAnchorPointForPosition(false);
         containerMenu->setLayout(
@@ -119,7 +119,7 @@ class $modify(PagedPauseMenu, PauseLayer) {
         m_fields->m_prevBtn = btnPrev;
 
         auto innerMenu = CCMenu::create();
-        innerMenu->setID("inner-button-menu");
+        innerMenu->setID("inner-button-menu"_spr);
         innerMenu->setContentSize({ 230.f, 60.f });
         innerMenu->ignoreAnchorPointForPosition(false);
 
