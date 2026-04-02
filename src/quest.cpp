@@ -3,11 +3,16 @@
 #include <Geode/modify/ChallengeNode.hpp>
 
 using namespace geode::prelude;
-class $modify(MyQuestPauseLayer, PauseLayer) {
 
+class $modify(MyQuestPauseLayer, PauseLayer) {
 
     void disableTouchRecursive(CCNode * node) {
         if (!node) return;
+
+        
+        if (typeinfo_cast<ChallengeNode*>(node)) {
+            return;
+        }
 
         if (auto layer = typeinfo_cast<CCLayer*>(node)) {
             layer->setTouchEnabled(false);
@@ -38,18 +43,33 @@ class $modify(MyQuestPauseLayer, PauseLayer) {
         CCDirector::sharedDirector()->getTouchDispatcher()->removeDelegate(originalPage);
 
         originalPage->setOpacity(0);
+        originalPage->updateTimers(0.0f);
 
         if (auto mainLayer = static_cast<CCLayer*>(originalPage->getChildren()->objectAtIndex(0))) {
+            int challengeCount = 0;  
+
             for (int i = 0; i < mainLayer->getChildrenCount(); i++) {
                 auto node = static_cast<CCNode*>(mainLayer->getChildren()->objectAtIndex(i));
-                if (typeinfo_cast<ChallengeNode*>(node) || typeinfo_cast<CCLabelBMFont*>(node)) {
+
+                if (auto challenge = typeinfo_cast<ChallengeNode*>(node)) {
+             
+                    if (challengeCount < 3) {
+                        challenge->setVisible(true);                
+                        CCDirector::sharedDirector()->getActionManager()->resumeTarget(challenge);
+
+                        challengeCount++;
+                    }             
+                    else {
+                        challenge->setVisible(false);
+                    }
+                }
+                else if (typeinfo_cast<CCLabelBMFont*>(node)) {
                     node->setVisible(true);
                 }
                 else {
                     node->setVisible(false);
                 }
             }
-
             disableTouchRecursive(mainLayer);
         }
 
@@ -58,7 +78,7 @@ class $modify(MyQuestPauseLayer, PauseLayer) {
         float myScale = 0.6f;
 
         bool is4x3 = (layerSize.width / layerSize.height) < 1.5f;
-        float posX = layerSize.width * (is4x3 ? 0.61f : 0.57f);  
+        float posX = layerSize.width * (is4x3 ? 0.61f : 0.57f);
 
         CCPoint myPos = { posX, layerSize.height * 0.63f };
 
