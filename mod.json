@@ -8,20 +8,22 @@
 	},
 	"id": "xjotabelikex.compact-pause-menu",
 	"name": "Compact Pause Menu",
-	"version": "v1.0.16",
+	"version": "v1.0.17",
 	"developer": "XJotaBeLikeX",
+	"description": "Create a fresher interface for the pause menu",
 	"links": {
 		"community": "https://discord.gg/vEPWBuFEn5"
 	},
 	"tags": [
 		"interface"
 	],
-
-	"description": "Create a fresher interface for the pause menu",
 	"dependencies": {
-
 		"geode.node-ids": ">=v1.23.3",
 		"alk.better-touch-prio": ">=v1.0.14"
-
+	},
+	"resources": {
+		"sprites": [
+			"resources/preview.png"
+		]
 	}
 }
