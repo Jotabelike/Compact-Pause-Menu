@@ -95,9 +95,19 @@ class $modify(DailyChest, PauseLayer) {
         findRewardLayer(m_fields->m_miniRewards);
 
         if (rewardLayer) {
+            int highestZ = 0;
+            if (scene->getChildren()) {
+                for (int i = 0; i < scene->getChildrenCount(); i++) {
+                    auto child = static_cast<CCNode*>(scene->getChildren()->objectAtIndex(i));
+                    if (child->getZOrder() > highestZ) {
+                        highestZ = child->getZOrder();
+                    }
+                }
+            }
+
             rewardLayer->retain();
             rewardLayer->removeFromParentAndCleanup(false);
-            scene->addChild(rewardLayer, 100);
+            scene->addChild(rewardLayer, highestZ + 1);
             rewardLayer->release();
             rewardLayer->setScale(1.0f);
             rewardLayer->setPosition({ 0.f, 0.f });
