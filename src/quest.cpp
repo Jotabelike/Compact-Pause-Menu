@@ -95,7 +95,7 @@ class $modify(MyQuestPauseLayer, PauseLayer) {
         std::function<void(CCNode*)> findRewardLayer = [&](CCNode* node) {
             if (rewardLayer || !node) return;
 
-            if (auto r = dynamic_cast<CurrencyRewardLayer*>(node)) {
+            if (auto r = typeinfo_cast<CurrencyRewardLayer*>(node)) {
                 rewardLayer = r;
                 return;
             }
@@ -126,7 +126,7 @@ class $modify(MyQuestPauseLayer, PauseLayer) {
             if (scene->getChildren()) {
                 for (int i = 0; i < scene->getChildrenCount(); i++) {
                     auto child = static_cast<CCNode*>(scene->getChildren()->objectAtIndex(i));
-                    if (dynamic_cast<CurrencyRewardLayer*>(child)) {
+                    if (typeinfo_cast<CurrencyRewardLayer*>(child)) {
                         foundInScene = true;
                         break;
                     }

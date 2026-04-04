@@ -79,7 +79,7 @@ class $modify(DailyChest, PauseLayer) {
         std::function<void(CCNode*)> findRewardLayer = [&](CCNode* node) {
             if (rewardLayer || !node) return;
 
-            if (auto r = dynamic_cast<RewardUnlockLayer*>(node)) {
+            if (auto r = typeinfo_cast<RewardUnlockLayer*>(node)) {
                 rewardLayer = r;
                 return;
             }
@@ -109,7 +109,7 @@ class $modify(DailyChest, PauseLayer) {
             if (scene->getChildren()) {
                 for (int i = 0; i < scene->getChildrenCount(); i++) {
                     auto child = static_cast<CCNode*>(scene->getChildren()->objectAtIndex(i));
-                    if (dynamic_cast<RewardUnlockLayer*>(child)) {
+                    if (typeinfo_cast<RewardUnlockLayer*>(child)) {
                         foundInScene = true;
                         break;
                     }
