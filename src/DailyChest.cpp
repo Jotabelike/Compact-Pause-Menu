@@ -18,13 +18,6 @@ class $modify(DailyChest, PauseLayer) {
         float posY = layerSize.height * 0.31f;
         float chestPosY = posY + 7.f;
 
-        auto bgBox = cocos2d::extension::CCScale9Sprite::create("square02b_001.png");
-        bgBox->setColor({ 0, 0, 0 });
-        bgBox->setOpacity(110);
-        bgBox->setContentSize({ 104.f, 38.f });
-        bgBox->setPosition({ posX, chestPosY - 5.f });
-        this->addChild(bgBox);
-
         auto rewardsPage = RewardsPage::create();
         rewardsPage->setID("mini-rewards-menu"_spr);
         rewardsPage->setTouchEnabled(false);

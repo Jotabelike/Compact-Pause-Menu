@@ -11,7 +11,7 @@ class $modify(PagedPauseMenu, PauseLayer) {
         CCMenuItemSpriteExtra* m_prevBtn = nullptr;
         CCMenuItemSpriteExtra* m_nextBtn = nullptr;
         int m_pageIndex = 0;
-        const int ITEMS_PER_PAGE = 5;
+        int m_itemsPerPage = 5;
     };
 
     void onPage(CCObject * sender) {
@@ -33,8 +33,8 @@ class $modify(PagedPauseMenu, PauseLayer) {
         if (!children) return;
 
         int totalItems = children->count();
-        int maxPages = (totalItems + m_fields->ITEMS_PER_PAGE - 1) / m_fields->ITEMS_PER_PAGE;
-        bool multiPage = totalItems > m_fields->ITEMS_PER_PAGE;
+        int maxPages = (totalItems + m_fields->m_itemsPerPage - 1) / m_fields->m_itemsPerPage;
+        bool multiPage = totalItems > m_fields->m_itemsPerPage;
 
         if (m_fields->m_prevBtn) {
             m_fields->m_prevBtn->setVisible(multiPage && m_fields->m_pageIndex > 0);
@@ -43,8 +43,8 @@ class $modify(PagedPauseMenu, PauseLayer) {
             m_fields->m_nextBtn->setVisible(multiPage && m_fields->m_pageIndex < maxPages - 1);
         }
 
-        int startIndex = m_fields->m_pageIndex * m_fields->ITEMS_PER_PAGE;
-        int endIndex = startIndex + m_fields->ITEMS_PER_PAGE;
+        int startIndex = m_fields->m_pageIndex * m_fields->m_itemsPerPage;
+        int endIndex = startIndex + m_fields->m_itemsPerPage;
 
         for (int i = 0; i < totalItems; i++) {
             auto node = static_cast<CCNode*>(children->objectAtIndex(i));
@@ -95,6 +95,8 @@ class $modify(PagedPauseMenu, PauseLayer) {
     void customSetup() {
         PauseLayer::customSetup();
         auto layerSize = this->getContentSize();
+
+        m_fields->m_itemsPerPage = Mod::get()->getSettingValue<int64_t>("buttons-per-page");
 
         auto containerMenu = CCMenu::create();
         containerMenu->setID("bottom-menu-container"_spr);

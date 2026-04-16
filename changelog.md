@@ -1,4 +1,6 @@
 ## Compact Pause Menu
+# 1.0.20
+- An option was added to increase the capacity of the buttons at the bottom of the pause menu.
 
 # 1.0.18
 - The description has been updated
